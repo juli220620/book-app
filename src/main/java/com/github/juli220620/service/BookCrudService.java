@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CrudService {
+public class BookCrudService {
 
     private final BookRepo repo;
     private final BookEntityMapper mapper;
@@ -26,12 +26,14 @@ public class CrudService {
                 .collect(Collectors.toList());
     }
 
-    public void editBook(BookDto editedData) {
+    public BookDto editBook(BookDto editedData) {
         var dbData = repo.findById(editedData.getId())
                 .map(mapper::entityToDto)
                 .orElseThrow();
         mapper.dtoToDto(editedData, dbData);
         repo.save(mapper.dtoToEntity(dbData));
+
+        return dbData;
     }
 
     public void deleteBook(Long id) {

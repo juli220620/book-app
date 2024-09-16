@@ -1,7 +1,7 @@
 package com.github.juli220620.controller;
 
 import com.github.juli220620.model.BookDto;
-import com.github.juli220620.service.CrudService;
+import com.github.juli220620.service.BookCrudService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +10,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/book")
 @RequiredArgsConstructor
-public class CrudController {
+public class BookController {
 
-    private final CrudService service;
+    private final BookCrudService service;
 
-    @PutMapping("/add")
+    @PostMapping
     public void addBook(@RequestBody BookDto dto) {
         service.addBook(dto);
     }
@@ -24,9 +24,9 @@ public class CrudController {
         return service.listAll();
     }
 
-    @PutMapping("/edit")
-    public void editBook(@RequestBody BookDto editedDto) {
-        service.editBook(editedDto);
+    @PutMapping
+    public BookDto updateBook(@RequestBody BookDto editedDto) {
+        return service.editBook(editedDto);
     }
 
     @DeleteMapping("/{id}")
