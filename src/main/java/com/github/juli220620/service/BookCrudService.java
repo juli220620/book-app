@@ -27,13 +27,13 @@ public class BookCrudService {
     }
 
     public BookDto editBook(BookDto editedData) {
-        var dbData = repo.findById(editedData.getId())
+        return repo.findById(editedData.getId())
+                .map(mapper::entityToDto)
+                .map(it -> mapper.dtoToDto(editedData, it))
+                .map(mapper::dtoToEntity)
+                .map(repo::save)
                 .map(mapper::entityToDto)
                 .orElseThrow();
-        mapper.dtoToDto(editedData, dbData);
-        repo.save(mapper.dtoToEntity(dbData));
-
-        return dbData;
     }
 
     public void deleteBook(Long id) {

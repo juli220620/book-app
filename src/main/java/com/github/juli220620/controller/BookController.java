@@ -1,5 +1,6 @@
 package com.github.juli220620.controller;
 
+import com.github.juli220620.aspect.DoCashing;
 import com.github.juli220620.model.BookDto;
 import com.github.juli220620.service.BookCrudService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class BookController {
         return service.listAll();
     }
 
+    @DoCashing
     @PutMapping
     public BookDto updateBook(@RequestBody BookDto editedDto) {
         return service.editBook(editedDto);
