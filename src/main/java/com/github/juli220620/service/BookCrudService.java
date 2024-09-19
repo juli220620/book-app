@@ -40,4 +40,8 @@ public class BookCrudService {
         repo.deleteById(id);
     }
 
+    public BookDto findById(Long id) {
+        return repo.findById(id).map(mapper::entityToDto).orElse(null);
+    }
+
 }

@@ -14,13 +14,13 @@ import java.util.Optional;
 @Component
 public class LoggingAspect {
 
-    //TODO check the lines for sameability
     @Around("execution(* com.github.juli220620.service..*.*(..))")
     public Object logAround(ProceedingJoinPoint joinPoint) {
         var args = Optional.ofNullable(joinPoint.getArgs()).orElse(new Object[0]);
         var methodName = joinPoint.getSignature().getName();
+        var className = joinPoint.getTarget().getClass().getSimpleName();
         log.info("Entered {}.{} method with {} args",
-                joinPoint.getTarget().getClass().getSimpleName(), methodName, Arrays.toString(args));
+                className, methodName, Arrays.toString(args));
 
 
         Object result;
@@ -38,7 +38,7 @@ public class LoggingAspect {
                     : result.toString();
 
         log.info("Method {}.{} finished execution with return value [{}]",
-                joinPoint.getTarget().getClass().getSimpleName(), methodName, resString);
+                className, methodName, resString);
 
         return result;
     }

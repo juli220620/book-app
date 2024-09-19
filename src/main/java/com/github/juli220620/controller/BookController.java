@@ -25,7 +25,6 @@ public class BookController {
         return service.listAll();
     }
 
-    @DoCashing
     @PutMapping
     public BookDto updateBook(@RequestBody BookDto editedDto) {
         return service.editBook(editedDto);
@@ -34,5 +33,11 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable Long id) {
         service.deleteBook(id);
+    }
+
+    @DoCashing
+    @GetMapping("/{id}")
+    public BookDto findById(@PathVariable Long id) {
+        return service.findById(id);
     }
 }
