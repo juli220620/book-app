@@ -1,7 +1,6 @@
 package com.github.juli220620.repo;
 
 import com.github.juli220620.model.BookEntity;
-import com.github.juli220620.repo.impl.ParametrizedBookSearchRepo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

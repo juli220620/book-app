@@ -1,6 +1,5 @@
 package com.github.juli220620.controller;
 
-import com.github.juli220620.aspect.DoCashing;
 import com.github.juli220620.model.BookDto;
 import com.github.juli220620.service.BookCrudService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,6 @@ public class BookController {
         service.deleteBook(id);
     }
 
-    @DoCashing
     @GetMapping("/{id}")
     public BookDto findById(@PathVariable Long id) {
         return service.findById(id);

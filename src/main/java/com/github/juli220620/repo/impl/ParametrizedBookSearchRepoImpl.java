@@ -1,6 +1,7 @@
 package com.github.juli220620.repo.impl;
 
 import com.github.juli220620.model.BookEntity;
+import com.github.juli220620.repo.ParametrizedBookSearchRepo;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import java.util.List;
 public class ParametrizedBookSearchRepoImpl implements ParametrizedBookSearchRepo {
 
     private final SessionFactory sessionFactory;
-
 
     @Override
     public List<BookEntity> findAllByAuthor(String author) {
