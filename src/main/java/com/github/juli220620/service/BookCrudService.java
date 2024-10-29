@@ -4,14 +4,22 @@ import com.github.juli220620.mapper.BookEntityMapper;
 import com.github.juli220620.model.BookDto;
 import com.github.juli220620.repo.BookRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookCrudService {
+
+    @Value("${app.page.size}")
+    private int pageSize;
 
     private final BookRepo repo;
     private final BookEntityMapper mapper;
@@ -24,6 +32,13 @@ public class BookCrudService {
         return repo.findAll().stream()
                 .map(mapper::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Page<BookDto> pageAll(int pageNumber) {
+        var res = repo.findAll(PageRequest.of(pageNumber, pageSize));
+        if (pageNumber + 1 > res.getTotalPages()) log.error("Invalid page");
+
+        return res.map(mapper::entityToDto);
     }
 
     public BookDto editBook(BookDto editedData) {

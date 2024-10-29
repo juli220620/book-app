@@ -25,6 +25,12 @@ public class BookController {
         return service.listAll();
     }
 
+    @GetMapping(params = "page")
+    public PagedBookRs pageAll(@RequestParam("page") int pageNumber) {
+        var res = service.pageAll(pageNumber);
+        return new PagedBookRs(pageNumber, res.getTotalPages(), res.getContent());
+    }
+
     @PutMapping
     public BookDto updateBook(@RequestBody BookDto editedDto) {
         return service.editBook(editedDto);
