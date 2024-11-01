@@ -9,4 +9,5 @@ import java.util.List;
 public interface ParametrizedBookSearchRepo {
     List<BookEntity> findAllByAuthor(String author);
     List<BookEntity> findByDescriptionPart(String descriptionPart);
+    List<BookEntity> findByName(String name);
 }

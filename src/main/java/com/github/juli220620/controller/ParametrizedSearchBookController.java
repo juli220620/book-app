@@ -14,13 +14,18 @@ public class ParametrizedSearchBookController {
 
     private final BookSearchService service;
 
-    @GetMapping("/{author}")
-    public List<BookDto> findAllByAuthor(@PathVariable String author) {
+    @GetMapping("/author")
+    public List<BookDto> findAllByAuthor(@RequestBody String author) {
         return service.findAllByAuthor(author);
     }
 
     @GetMapping("/descr")
     public List<BookDto> findByDescriptionPart(@RequestBody String descriptionPart) {
         return service.findByDescriptionPart(descriptionPart);
+    }
+
+    @GetMapping("/name")
+    public List<BookDto> findByName(@RequestBody String name) {
+        return service.findByName(name);
     }
 }

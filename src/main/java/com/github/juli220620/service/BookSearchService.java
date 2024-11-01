@@ -25,6 +25,10 @@ public class BookSearchService {
         return mapList(repo.findByDescriptionPart(descriptionPart));
     }
 
+    public List<BookDto> findByName(String name) {
+        return mapList(repo.findByName(name));
+    }
+
     private List<BookDto> mapList(List<BookEntity> unmappedList) {
         return unmappedList.stream()
                 .map(mapper::entityToDto)

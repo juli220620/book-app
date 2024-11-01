@@ -38,4 +38,13 @@ public class ParametrizedBookSearchRepoImpl implements ParametrizedBookSearchRep
             return session.createQuery(criteriaQuery).getResultList();
         }
     }
+
+    @Override
+    public List<BookEntity> findByName(String name) {
+        var query = sessionFactory.openSession()
+                .createQuery("from BookEntity b where b.name = ?1", BookEntity.class);
+        query.setParameter(1, name);
+        query.setCacheable(true);
+        return query.getResultList();
+    }
 }
