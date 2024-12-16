@@ -18,6 +18,9 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.7.3'
     implementation 'org.liquibase:liquibase-core'
 
+    implementation 'org.springframework.data:spring-data-mongodb'
+    implementation 'org.mongodb:mongodb-driver-sync'
+
     implementation 'org.hibernate.orm:hibernate-jcache:6.4.4.Final'
     implementation 'org.ehcache:ehcache:3.10.8'
 

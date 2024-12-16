@@ -3,6 +3,7 @@ package com.github.juli220620.mapper;
 import com.github.juli220620.model.BookDto;
 import com.github.juli220620.model.BookEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -10,8 +11,10 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BookEntityMapper {
 
+    @Mapping(target = "imageId", ignore = true)
     BookEntity dtoToEntity(BookDto dto);
 
+    @Mapping(target = "image", ignore = true)
     BookDto entityToDto(BookEntity entity);
 
     BookDto dtoToDto(BookDto source, @MappingTarget BookDto target);

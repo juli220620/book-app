@@ -25,4 +25,5 @@ public class BookEntity {
     private String name;
     private String author;
     private String description;
+    private String imageId;
 }
