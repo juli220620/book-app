@@ -1,6 +1,5 @@
 package com.github.juli220620.image;
 
-import com.github.juli220620.model.BookEntity;
 import com.github.juli220620.repo.BookRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +23,14 @@ public class ImageService {
     private final BookRepo bookRepo;
 
     public void saveImage(Long bookId,
-                            MultipartFile image,
-                            String filename,
-                            String contentType) {
+                          MultipartFile image,
+                          String filename,
+                          String contentType) {
         try {
             var bookEntity = bookRepo.findById(bookId).orElseThrow(() -> new RuntimeException("No such book found"));
             bookEntity.setImageId(
-                    gridFsTemplate.store(
-                            image.getInputStream(),
-                            filename,
-                            contentType)
-                            .toString());
+                    gridFsTemplate.store(image.getInputStream(), filename, contentType).toString());
+            bookRepo.save(bookEntity);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
@@ -42,9 +38,7 @@ public class ImageService {
     }
 
     public GridFsResource findImageByBookId(Long bookId) {
-        var imageId = bookRepo.findById(bookId)
-                .map(BookEntity::getImageId)
-                .orElse("");
+        var imageId = bookRepo.getImageId(bookId);
         return findImage(imageId);
     }
 

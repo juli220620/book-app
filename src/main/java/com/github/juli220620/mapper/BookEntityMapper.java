@@ -14,7 +14,6 @@ public interface BookEntityMapper {
     @Mapping(target = "imageId", ignore = true)
     BookEntity dtoToEntity(BookDto dto);
 
-    @Mapping(target = "image", ignore = true)
     BookDto entityToDto(BookEntity entity);
 
     BookDto dtoToDto(BookDto source, @MappingTarget BookDto target);

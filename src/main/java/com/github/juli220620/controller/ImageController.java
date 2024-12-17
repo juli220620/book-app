@@ -14,9 +14,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/image")
+@RequestMapping("/api/book/image")
 @RequiredArgsConstructor
 public class ImageController {
 
@@ -31,25 +32,11 @@ public class ImageController {
         imageService.saveImage(bookId, file, filename, file.getContentType());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable Long id) {
-        var resource = imageService.findImageByBookId(id);
-        if (resource == null) {
-            try {
-                return ResponseEntity.ok()
-                        .contentType(MediaType.parseMediaType(Files.probeContentType(Path.of(placeholderImagePath))))
-                        .header(ContentDisposition.builder("attachment")
-                                .filename(Path.of(placeholderImagePath).getFileName().toString(), StandardCharsets.UTF_8)
-                                .build().toString())
-                        .body(new ByteArrayResource(
-                                Files.readAllBytes(
-                                        Path.of(getClass().getClassLoader()
-                                                .getResource(placeholderImagePath).toURI()))
-                        ));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+    @GetMapping("/{bookId}")
+    public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable Long bookId) {
+        var resource = imageService.findImageByBookId(bookId);
+
+        if (resource == null) return downloadPlaceholderImage();
 
         try {
             return ResponseEntity.ok()
@@ -59,6 +46,23 @@ public class ImageController {
                             .build().toString())
                     .body(new ByteArrayResource(resource.getContentAsByteArray()));
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ResponseEntity<ByteArrayResource> downloadPlaceholderImage() {
+        try {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(Files.probeContentType(Path.of(placeholderImagePath))))
+                    .header(ContentDisposition.builder("attachment")
+                            .filename(Path.of(placeholderImagePath).getFileName().toString(), StandardCharsets.UTF_8)
+                            .build().toString())
+                    .body(new ByteArrayResource(
+                            Files.readAllBytes(
+                                    Path.of(Objects.requireNonNull(getClass().getClassLoader()
+                                            .getResource(placeholderImagePath)).toURI()))
+                    ));
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
