@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -36,7 +37,7 @@ public class BookCrudService {
 
     public Page<BookDto> pageAll(int pageNumber) {
         var res = repo.findAll(PageRequest.of(pageNumber, pageSize));
-        if (pageNumber + 1 > res.getTotalPages()) log.error("Invalid page");
+        if (pageNumber + 1 > res.getTotalPages()) throw new NoSuchElementException("No such page");
 
         return res.map(mapper::entityToDto);
     }
@@ -56,7 +57,8 @@ public class BookCrudService {
     }
 
     public BookDto findById(Long id) {
-        return repo.findById(id).map(mapper::entityToDto).orElse(null);
+        return repo.findById(id).map(mapper::entityToDto)
+                .orElseThrow(() -> new NoSuchElementException("No such book exists"));
     }
 
 }

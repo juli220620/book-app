@@ -27,7 +27,7 @@ public class BookController {
     @GetMapping(params = "page")
     public PagedBookRs pageAll(@RequestParam("page") int pageNumber) {
         var res = service.pageAll(pageNumber);
-        return new PagedBookRs(pageNumber, res.getTotalPages(), res.getContent());
+        return new PagedBookRs(pageNumber + 1, res.getTotalPages(), res.getContent());
     }
 
     @PutMapping

@@ -3,6 +3,7 @@ package com.github.juli220620.image;
 import com.github.juli220620.repo.BookRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -11,12 +12,16 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ImageService {
+
+    @Value("#{${app.contenttype.values}}")
+    public List<String> validContentTypes;
 
     private final GridFsTemplate gridFsTemplate;
     private final GridFsOperations operations;
@@ -27,7 +32,11 @@ public class ImageService {
                           String filename,
                           String contentType) {
         try {
-            var bookEntity = bookRepo.findById(bookId).orElseThrow(() -> new RuntimeException("No such book found"));
+            var bookEntity = bookRepo.findById(bookId).orElseThrow();
+
+            if (bookEntity.getImageId() != null) {
+                gridFsTemplate.delete(new Query(Criteria.where("_id").is(bookEntity.getImageId())));
+            }
             bookEntity.setImageId(
                     gridFsTemplate.store(image.getInputStream(), filename, contentType).toString());
             bookRepo.save(bookEntity);
@@ -38,8 +47,8 @@ public class ImageService {
     }
 
     public GridFsResource findImageByBookId(Long bookId) {
-        var imageId = bookRepo.getImageId(bookId);
-        return findImage(imageId);
+        return bookRepo.getImageId(bookId)
+                .map(this::findImage).orElse(null);
     }
 
     public GridFsResource findImage(String id) {
