@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +40,8 @@ public class SecurityConfig {
         return http.authorizeHttpRequests(
                 reg -> reg
                         .requestMatchers("/api/book/**").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/api/user/sign-up", "/api/user/login").anonymous()
+                        .anyRequest().authenticated())
                 .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -52,6 +54,11 @@ public class SecurityConfig {
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(publicKey()).build();
+    }
+
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("SCOPE_");
     }
 
     private RSAPublicKey publicKey() {
