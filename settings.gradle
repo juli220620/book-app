@@ -1,2 +1,4 @@
-rootProject.name = 'books-app'
+rootProject.name = 'book-app'
+include 'config'
+include 'gateway'
 
