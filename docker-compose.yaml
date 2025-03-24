@@ -3,9 +3,11 @@ services:
   gateway:
     build: gateway/.
     container_name: gateway
+    ports:
+      - "8080:8080"
     networks:
       book-app-network:
-        - ipv4_address: 100.0.0.2
+        ipv4_address: 100.0.0.2
 
   consul:
     image: hashicorp/consul:latest
@@ -22,6 +24,26 @@ services:
     networks:
       book-app-network:
         ipv4_address: 100.0.0.4
+
+  user-db:
+    image: postgres:latest
+    container_name: user-db
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: administration
+    networks:
+      book-app-network:
+        ipv4_address: 100.0.0.5
+
+  user-service:
+    build: user/.
+    container_name: user-service
+    networks:
+      book-app-network:
+    depends_on:
+      - config
+      - consul
+      - user-db
 
 
 networks:

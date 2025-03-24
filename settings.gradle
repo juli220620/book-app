@@ -1,4 +1,5 @@
 rootProject.name = 'book-app'
 include 'config'
 include 'gateway'
+include 'user'
 
