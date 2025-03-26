@@ -1,4 +1,4 @@
-FROM gradle:jdk19
+FROM gradle:jdk21
 COPY . /app/
 WORKDIR /app/
 ENTRYPOINT ["gradle", "bootRun"]
