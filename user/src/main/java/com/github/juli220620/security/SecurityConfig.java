@@ -40,6 +40,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
                 reg -> reg
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/user/sign-up", "/api/user/login").anonymous()
                         .anyRequest().authenticated())
                 .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.NEVER))

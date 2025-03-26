@@ -1,0 +1,14 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation=
+                           "http://www.liquibase.org/xml/ns/dbchangelog
+                           https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="scripts/001-create-administration-schema.sql" relativeToChangelogFile="true" />
+    <include file="scripts/002-create-user-table.sql" relativeToChangelogFile="true" />
+    <include file="scripts/003-create-role-table.sql" relativeToChangelogFile="true" />
+    <include file="scripts/004-create-user-role-table.sql" relativeToChangelogFile="true" />
+    <include file="scripts/005-add-role-values.sql" relativeToChangelogFile="true" />
+    <include file="scripts/006-add-admin-creds.sql" relativeToChangelogFile="true" />
+
+</databaseChangeLog>
