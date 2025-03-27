@@ -15,8 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Date;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +34,9 @@ public class JwtService {
         JWSSigner signer;
         RSAKey privateKey;
 
-        try(var input = getClass().getClassLoader().getResourceAsStream(privateKeyPath)) {
+        try {
             privateKey = JWK.parseFromPEMEncodedObjects(
-                    new String(Objects.requireNonNull(input).readAllBytes())
+                    new String(Files.readAllBytes(Path.of(privateKeyPath)))
             )
                     .toRSAKey();
             signer = new RSASSASigner(privateKey);

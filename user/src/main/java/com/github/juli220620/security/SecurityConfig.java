@@ -39,10 +39,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                reg -> reg
-                        .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/user/sign-up", "/api/user/login").anonymous()
-                        .anyRequest().authenticated())
+                        reg -> reg
+                                .requestMatchers("/actuator/**").permitAll()
+                                .requestMatchers("/api/user/sign-up", "/api/user/login").anonymous()
+                                .anyRequest().authenticated())
                 .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -65,8 +65,7 @@ public class SecurityConfig {
     private RSAPublicKey publicKey() {
         try {
             return JWK.parseFromPEMEncodedObjects(
-                    new String(Files.readAllBytes(Path.of(publicKeyPath)))
-                    )
+                            new String(Files.readAllBytes(Path.of(publicKeyPath))))
                     .toRSAKey()
                     .toRSAPublicKey();
         } catch (JOSEException | IOException e) {
