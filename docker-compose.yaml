@@ -45,6 +45,22 @@ services:
       - consul
       - user-db
 
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    networks:
+      book-app-network:
+        ipv4_address: 100.0.0.6
+
+  image-service:
+    build: image/.
+    container_name: image-service
+    networks:
+      book-app-network:
+    depends_on:
+      - config
+      - consul
+      - mongodb
 
 networks:
 

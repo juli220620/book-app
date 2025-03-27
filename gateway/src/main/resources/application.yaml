@@ -6,3 +6,11 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/api/user/*
+          filters:
+            - TokenRelay=
+        - id: image-service
+          uri: lb://image-service
+          predicates:
+            - Path=/api/book/image/*
+          filters:
+            - TokenRelay=
