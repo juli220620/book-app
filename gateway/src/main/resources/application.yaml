@@ -14,3 +14,9 @@ spring:
             - Path=/api/book/image/*
           filters:
             - TokenRelay=
+        - id: book-service
+          uri: lb://book-service
+          predicates:
+            - Path=/api/book/*
+          filters:
+            - TokenRelay=

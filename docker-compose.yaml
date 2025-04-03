@@ -62,6 +62,26 @@ services:
       - consul
       - mongodb
 
+  book-db:
+    image: postgres:latest
+    container_name: book-db
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: books
+    networks:
+      book-app-network:
+        ipv4_address: 100.0.0.7
+
+  book-service:
+    build: book/.
+    container_name: book-service
+    networks:
+      book-app-network:
+    depends_on:
+      - consul
+      - config
+      - book-db
+
 networks:
 
   book-app-network:

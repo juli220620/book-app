@@ -3,4 +3,5 @@ include 'config'
 include 'gateway'
 include 'user'
 include 'image'
+include 'book'
 
