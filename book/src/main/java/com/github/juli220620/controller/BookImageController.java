@@ -19,8 +19,8 @@ public class BookImageController {
     }
 
     @GetMapping("/image/{bookId}")
-    public Optional<String> getImageId(@PathVariable Long bookId) {
-        return service.getImageId(bookId);
+    public String getImageId(@PathVariable Long bookId) {
+        return service.getImageId(bookId).orElse(null);
     }
 
     @PutMapping("/save")

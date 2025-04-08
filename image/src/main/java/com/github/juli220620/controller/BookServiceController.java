@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Optional;
 
-@FeignClient(value = "book-service")
+@FeignClient(value = "book-service", configuration = FeignConfig.class)
 public interface BookServiceController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")

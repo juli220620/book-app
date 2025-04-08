@@ -1,4 +1,5 @@
 FROM gradle:jdk21
-COPY . /app/
+COPY build/libs/app.jar /app/
+ADD keys /app/keys
 WORKDIR /app/
-ENTRYPOINT ["gradle", "bootRun"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -42,8 +42,9 @@ public class SecurityConfig {
                         reg -> reg
                                 .requestMatchers("/actuator/**").permitAll()
                                 .requestMatchers("/api/user/sign-up", "/api/user/login").anonymous()
-                                .anyRequest().authenticated())
-                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                                .anyRequest().authenticated()
+                )
+                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)

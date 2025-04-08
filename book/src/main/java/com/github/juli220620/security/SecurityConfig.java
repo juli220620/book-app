@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/book/**").authenticated()
                         .anyRequest().authenticated())
-                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)

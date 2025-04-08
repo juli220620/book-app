@@ -2,6 +2,7 @@ package com.github.juli220620.security;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWK;
+import feign.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/book/image/**").authenticated()
                         .anyRequest().authenticated())
-                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
