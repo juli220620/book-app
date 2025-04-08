@@ -11,15 +11,15 @@ import java.util.Optional;
 @FeignClient(value = "book-service")
 public interface BookServiceController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/book/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     Optional<BookDto> getBookById(@PathVariable Long id);
 
     @RequestMapping(method = RequestMethod.GET, value = "/image/{bookId}")
     Optional<String> getImageId(@PathVariable Long bookId);
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/book/save")
+    @RequestMapping(method = RequestMethod.PUT, value = "/save")
     void saveBook(BookDto bookDto);
 
-    @RequestMapping(method = RequestMethod.GET, value = "/book/exists/{bookId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/exists/{bookId}")
     boolean entryExists(@PathVariable Long bookId);
 }

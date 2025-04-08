@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/book-service")
 @RequiredArgsConstructor
 public class BookImageController {
 
     private final BookImageService service;
 
-    @GetMapping("/book/{id}")
+    @GetMapping("/{id}")
     public Optional<BookImageDto> getBookById(@PathVariable Long id) {
         return service.findImageIdById(id);
     }
@@ -24,12 +23,12 @@ public class BookImageController {
         return service.getImageId(bookId);
     }
 
-    @PutMapping("/book/save")
+    @PutMapping("/save")
     public void save(@RequestBody BookImageDto dto) {
         service.save(dto);
     }
 
-    @GetMapping("/book/exists/{id}")
+    @GetMapping("/exists/{id}")
     public boolean entryExist(@PathVariable Long id) {
         return service.entryExists(id);
     }

@@ -12,8 +12,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookImageService {
 
-    private BookRepo repo;
-    private BookEntityMapper mapper;
+    private final BookRepo repo;
+    private final BookEntityMapper mapper;
 
     public Optional<BookImageDto> findImageIdById(Long id) {
         return repo.findById(id).map(mapper::entityToImageDto);

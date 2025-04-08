@@ -11,7 +11,7 @@ spring:
         - id: image-service
           uri: lb://image-service
           predicates:
-            - Path=/api/book/image/*
+            - Path=/api/book/image, /api/book/image/*
           filters:
             - TokenRelay=
         - id: book-service
