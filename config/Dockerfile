@@ -1,4 +1,4 @@
-FROM gradle:jdk21
+FROM alpine/java:21-jdk
 COPY build/libs/app.jar /app/
 ADD files /app/files
 WORKDIR /app/

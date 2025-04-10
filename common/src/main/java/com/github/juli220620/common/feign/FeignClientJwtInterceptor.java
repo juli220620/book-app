@@ -1,4 +1,4 @@
-package com.github.juli220620.common;
+package com.github.juli220620.common.feign;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -19,12 +19,6 @@ public class FeignClientJwtInterceptor implements RequestInterceptor {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication instanceof JwtAuthenticationToken auth) {
-
-            //TODO remove
-            if (log.isTraceEnabled()) {
-                log.trace(auth.getToken().getTokenValue());
-            }
-
             requestTemplate.header(
                     AUTHORIZATION_HEADER,
                     String.format("%s %s", TOKEN_TYPE, auth.getToken().getTokenValue())

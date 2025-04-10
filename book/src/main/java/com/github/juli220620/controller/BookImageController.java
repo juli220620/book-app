@@ -5,8 +5,6 @@ import com.github.juli220620.service.BookImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequiredArgsConstructor
 public class BookImageController {
@@ -14,8 +12,8 @@ public class BookImageController {
     private final BookImageService service;
 
     @GetMapping("/{id}")
-    public Optional<BookImageDto> getBookById(@PathVariable Long id) {
-        return service.findImageIdById(id);
+    public BookImageDto getBookById(@PathVariable Long id) {
+        return service.findImageIdById(id).orElse(null);
     }
 
     @GetMapping("/image/{bookId}")

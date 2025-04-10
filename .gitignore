@@ -3,3 +3,4 @@
 build/
 *.pem
 *.pem.pub
+build.sh

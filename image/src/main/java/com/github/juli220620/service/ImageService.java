@@ -1,6 +1,7 @@
 package com.github.juli220620.service;
 
 import com.github.juli220620.controller.BookServiceController;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +21,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ImageService {
 
+    @Getter
     @Value("#{${app.content.type.values}}")
-    public List<String> validContentTypes;
+    private List<String> validContentTypes;
 
     private final GridFsTemplate gridFsTemplate;
     private final GridFsOperations operations;
@@ -32,14 +34,16 @@ public class ImageService {
                           String filename,
                           String contentType) {
         try {
-            var bookEntity = bookService.getBookById(bookId).orElseThrow();
+            var book = Optional.ofNullable(bookService.getBookById(bookId)).orElseThrow();
 
-            if (bookEntity.getImageId() != null) {
-                gridFsTemplate.delete(new Query(Criteria.where("_id").is(bookEntity.getImageId())));
+            var imageId = book.getImageId();
+            if (imageId != null) {
+                gridFsTemplate.delete(new Query(Criteria.where("_id").is(imageId)));
             }
-            bookEntity.setImageId(
+
+            book.setImageId(
                     gridFsTemplate.store(image.getInputStream(), filename, contentType).toString());
-            bookService.saveBook(bookEntity);
+            bookService.saveBook(book);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
@@ -47,7 +51,7 @@ public class ImageService {
     }
 
     public GridFsResource findImageByBookId(Long bookId) {
-        return bookService.getImageId(bookId)
+        return Optional.ofNullable(bookService.getImageId(bookId))
                 .map(this::findImage).orElse(null);
     }
 
@@ -55,5 +59,4 @@ public class ImageService {
         var gridFsFile = Optional.ofNullable(gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id))));
         return gridFsFile.map(operations::getResource).orElse(null);
     }
-
 }

@@ -37,7 +37,7 @@ public class ImageFacade {
 
         var contentType = image.getContentType();
 
-        if (!imageService.validContentTypes.contains(contentType))
+        if (!imageService.getValidContentTypes().contains(contentType))
             throw new IllegalArgumentException("Invalid content type");
 
         if (!bookService.entryExists(bookId)) throw new NoSuchElementException(NO_SUCH_BOOK_EXISTS_MESSAGE);

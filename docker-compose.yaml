@@ -54,8 +54,6 @@ services:
     image: mongo:4
     container_name: mongodb
     restart: unless-stopped
-    ports:
-      - "27017:27017"
     networks:
       book-app-network:
         ipv4_address: 100.0.0.6

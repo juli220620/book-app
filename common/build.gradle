@@ -4,6 +4,9 @@ plugins {
 
 dependencies {
     compileOnly 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
     compileOnly 'org.springframework.boot:spring-boot-starter-security'
     compileOnly 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+    compileOnly 'org.springframework.boot:spring-boot-starter-aop'
 }
